@@ -12,17 +12,8 @@
       <v-card
         outlined
       >
-          <div>Image</div>
-          <div>Video</div>
-          <div>Description</div>
-          <div>Quote</div>
-          <div>Footnote</div>
-          <div>Link</div>
-          <div>Button</div>
-          <div>File</div>
-          <div>2 columns</div>
-          <div>Table</div>
-          <div>Table row</div>
+        <EditorOptions
+        />
         <v-divider>
         </v-divider>
         <v-textarea
@@ -36,8 +27,14 @@
 </template>
 
 <script>
+import EditorOptions from './components/EditorOptions';
+
 export default {
   name: 'App',
+
+  components: {
+    EditorOptions
+  },
 
   data: () => ({
     //
