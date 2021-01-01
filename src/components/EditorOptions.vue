@@ -1,12 +1,16 @@
 <template>
   <div>
-    <div
-      class="option-container"
-      v-for="(option, index) in options"
-      :key="index"
-    >
-      {{ option.title }}
-    </div>
+    <v-list>
+      <v-list-item
+        class="option-container"
+        v-for="(option, index) in options"
+        :key="index"
+      >
+        <p class="text--secondary">
+          {{ option.title }}
+        </p>
+      </v-list-item>
+    </v-list>
   </div>
 </template>
 

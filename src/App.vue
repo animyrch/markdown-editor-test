@@ -14,13 +14,9 @@
       >
         <EditorOptions
         />
-        <v-divider>
-        </v-divider>
-        <v-textarea
-          name="markdown-input-area"
-          value="# Header"
-          hint="**Bold** *Italic* _Underline_ List with bullets # H1 ## H2 ### H3 #### H4 ##### H5 ###### H6"
-        ></v-textarea>
+        <v-divider />
+        <EditorArea
+        />
       </v-card>
     </v-main>
   </v-app>
@@ -28,12 +24,14 @@
 
 <script>
 import EditorOptions from './components/EditorOptions';
+import EditorArea from './components/EditorArea';
 
 export default {
   name: 'App',
 
   components: {
-    EditorOptions
+    EditorOptions,
+    EditorArea
   },
 
   data: () => ({
