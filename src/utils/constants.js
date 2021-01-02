@@ -1,6 +1,10 @@
 const columnDivStyle = 'style="width: 50%;display: inline-block;"';
     
 export default {
+    EDITOR_ACTIONS: {
+        PRINT_EXAMPLE: 'PRINT_EXAMPLE',
+        OPEN_MODEL: 'OPEN_MODEL'
+    },
     CUSTOM_TAGS: {
         IMAGE_OPENING: '[img=&quot;',
         VIDEO_OPENING: '[video=&quot;',

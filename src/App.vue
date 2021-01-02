@@ -13,6 +13,7 @@
         outlined
       >
         <EditorOptions
+          @on-print-example="onPrintExample"
         />
         <v-divider />
         <EditorArea
@@ -50,6 +51,9 @@ export default {
   methods: {
     onContentChange (newContent) {
       this.editorContent = newContent;
+    },
+    onPrintExample (example) {
+      this.editorContent += '\n' + example;
     }
   }
 };
