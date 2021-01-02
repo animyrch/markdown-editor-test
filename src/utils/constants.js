@@ -1,6 +1,11 @@
 const columnDivStyle = 'style="width: 50%;display: inline-block;"';
     
 export default {
+    CUSTOM_TAGS: {
+        IMAGE_OPENING: '[img=&quot;',
+        VIDEO_OPENING: '[video=&quot;',
+        SELF_CLOSING: '&quot;]'
+    },
     REGEX: {
         TABLE_START: /\[table\]/g,
         TABLE_END: /\[\/table\]/g,
@@ -20,9 +25,9 @@ export default {
         COL_RIGHT_START: `<div ${columnDivStyle}>`,
         COL_LEFT_END: '</div>',
         COL_RIGHT_END: '</div>',
-        IMG_START: '<img src',
-        IMG_END: ' alt="">',
-        VIDEO_START: '<video controls width="250"><source src',
-        VIDEO_END: ' type="video/mp4">Sorry, your browser doesn\'t support embedded videos.</video>'
+        IMG_START: '<img src="',
+        IMG_END: '" alt="">',
+        VIDEO_START: '<video controls width="250"><source src="',
+        VIDEO_END: '" type="video/mp4">Sorry, your browser doesn\'t support embedded videos.</video>'
     }
 }

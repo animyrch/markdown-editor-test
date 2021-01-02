@@ -23,9 +23,6 @@ export default {
       return renderedHtml;
     }
   }
-
-  // `| | | \n | - | - | \n | columnOneContent  | columnTwoContent  |`
-
 }
 </script>
 <style scoped>

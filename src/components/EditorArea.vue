@@ -5,6 +5,7 @@
       name="markdown-input-area"
       :value="content"
       :hint="editorHint"
+      @keyup="onContentChange"
     ></v-textarea>
   </div>
 </template>
@@ -26,6 +27,12 @@ export default {
   computed: {
     defaultContent () {
       return this.defaultContentElements.join('\n');
+    }
+  },
+
+  methods: {
+    onContentChange (e) {
+      this.$emit('on-content-changed', e.target.value);
     }
   }
 }
