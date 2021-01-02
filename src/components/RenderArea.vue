@@ -4,6 +4,8 @@
 </template>
 
 <script>
+import { replaceTags } from '../utils/customTags';
+
 export default {
   name: 'RenderArea',
 
@@ -16,7 +18,9 @@ export default {
 
   computed: {
     renderedHtml () {
-      return this.$md.render(this.source);
+      let renderedHtml = this.$md.render(this.source);
+      renderedHtml = replaceTags(renderedHtml);
+      return renderedHtml;
     }
   }
 

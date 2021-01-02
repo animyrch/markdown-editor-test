@@ -4,4 +4,4 @@
 
 3/ Figma file seems to imply that using underscores on both sides of a word makes an underline. Hovewer, this is not possible according to Markdown specification and no markdown editor does this since underlining alltogether is not recommended in Markdown conventions to prevent confusion with links which are automatically underlined. Underscores on both sides is an alternative way to italicise in Markdown. So, I am keeping the word underlined according to the Mockup but it will be italicised.
 
-
+4/ Mockup shows a usage of [col-left] and [col-right] tags as separate from [table] and [table-row] tags but they are also used inside a [table-row]. At first glance, I would have thought that columns would give a table-like presentation (since text inside says 'content in the left / right column'). If that is true, why do we need table and table row tags ? If it is not the case, what do [col-right] and [col-left] tags do ? What is the presentation like and how is it different from a table presentation ? A rendered view mockup would help a lot to carry out this task.
