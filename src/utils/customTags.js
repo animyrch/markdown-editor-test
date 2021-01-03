@@ -43,7 +43,7 @@ function _convertImgTags (input) {
 function _convertVideoTags (input) {
   return _convertSelfClosingTag({
     input,
-    selfClosingTag: CONSTANTS.CUSTOM_TAGS.VIDEO_OPENING,
+    selfClosingTag: CONSTANTS.CUSTOM_TAGS.VIDEO_OPENING_ENCODED,
     startMarkup: CONSTANTS.MARKUP.VIDEO_START,
     endMarkup: CONSTANTS.MARKUP.VIDEO_END
   });

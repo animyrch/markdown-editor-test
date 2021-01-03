@@ -28,14 +28,29 @@
         />
       </v-card>
     </v-main>
-    <AddToEditorModal
-      :examples="addToEditorExamples"
+    <ModalAddToEditor
+      v-if="addToEditorModalContents.type"
+      :type="addToEditorModalContents.type"
+      :examples="addToEditorModalContents.examples"
       :visible="openAddToEditorModal"
+      :uploadHint="addToEditorModalContents.uploadHint"
+      :uploadHandler="onFileInput"
       @on-cancel="onCloseModal"
       @on-click-item="onClickItem"
-      @on-upload-success="onUploadSuccess"
-      @on-upload-fail="onUploadFail"
-    />
+    >
+      <template v-slot:title>
+        {{ addToEditorModalContents.title}}
+      </template>
+      <template v-slot:uploadInstruction>
+        {{ addToEditorModalContents.uploadInstruction }}
+      </template>
+      <template v-slot:uploadHint>
+        {{ addToEditorModalContents.uploadHint }}
+      </template>
+      <template v-slot:selectInstruction>
+        {{ addToEditorModalContents.selectInstruction }}
+      </template>
+    </ModalAddToEditor>
   </v-app>
 </template>
 
@@ -44,7 +59,7 @@ import './assets/main.css';
 import EditorOptions from './components/EditorOptions';
 import EditorArea from './components/EditorArea';
 import RenderArea from './components/RenderArea';
-import AddToEditorModal from './components/common/AddToEditorModal';
+import ModalAddToEditor from './components/ModalAddToEditor';
 
 export default {
   name: 'App',
@@ -53,14 +68,13 @@ export default {
     EditorOptions,
     EditorArea,
     RenderArea,
-    AddToEditorModal
+    ModalAddToEditor
   },
 
   data () {
     return {
-      editorContent: '# Header 1 \n\n ## Header 2 \n\n ### Header 3 \n\n Lorem Ipsum sit amet \n\n **bold** *italic* _underline_   \n\n  [col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right]  \n\n This is a [link](https://picsum.photos/200)  \n\n [img="https://picsum.photos/200"]  \n\n [col-left][img="https://picsum.photos/200"][/col-left][col-right][img="https://picsum.photos/200"][/col-right] \n\n [table] \n [row][col-left]**Make it bold**[/col-left][col-right]**Make it bold**[/col-right] \n [row][col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right][/row] \n [row][col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right][/row] \n [/table]',
+      editorContent: '# Header 1 \n\n ## Header 2 \n\n ### Header 3 \n\n Lorem Ipsum sit amet \n\n **bold** *italic* _underline_   \n\n  [col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right]  \n\n This is a [link](https://example.com)  \n\n [img="https://picsum.photos/200"]  \n\n [col-left][img="https://picsum.photos/200"][/col-left][col-right][img="https://picsum.photos/200"][/col-right] \n\n [table] \n [row][col-left]**Make it bold**[/col-left][col-right]**Make it bold**[/col-right] \n [row][col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right][/row] \n [row][col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right][/row] \n [/table]',
       openAddToEditorModal: false,
-      addToEditorExamples: null,
       editorOptions: [
           { 
             title: 'Image',
@@ -78,13 +92,33 @@ export default {
               }
             ]
           },
-          { title: 'Video' },
-          { title: 'Description' },
-          { title: 'Quote' },
+          { 
+            title: 'Video',
+            id: this.$CONSTANTS.EDITOR_MODAL_TYPES.VIDEO,
+            actionType: this.$CONSTANTS.EDITOR_ACTIONS.OPEN_MODAL,
+            examples: [
+              {
+                src: 'https://assets.mixkit.co/videos/preview/mixkit-christmas-tree-in-a-close-shot-of-its-branches-and-39737-large.mp4'
+              },
+              {
+                src: 'https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4'
+              }
+            ]
+          },
+          //{ title: 'Description' },
+          { 
+            title: 'Quote',
+            actionType: this.$CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
+            content: '\n> Blockquote'
+          },
           { title: 'Footnote' },
-          { title: 'Link' },
-          { title: 'Button' },
-          { title: 'File' },
+          { 
+            title: 'Link',
+            actionType: this.$CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
+            content: 'This is a [link](https://example.com)  '
+          },
+          //{ title: 'Button' },
+          //{ title: 'File' },
           { 
             title: '2 columns', 
             actionType: this.$CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
@@ -100,7 +134,15 @@ export default {
             actionType: this.$CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
             content: '[row]content[/row]'
           }
-        ]
+        ],
+      addToEditorModalContents: {
+        type: null,
+        title: null,
+        uploadInstruction: null,
+        uploadHint: null,
+        selectInstruction: null,
+        examples: []
+      }
     };
   },
 
@@ -109,37 +151,130 @@ export default {
       this.editorContent = newContent;
     },
     onPrintExample (example) {
-      this.addToEditor(example);
+      this.insertAtCursor(example);
     },
     onOpenModal (option) {
-      this.addToEditorType = option.id;
-      this.addToEditorExamples = option.examples;
+      this.addToEditorModalContents.type = option.id;
+      this.setModalContents(option);
       this.openAddToEditorModal = true;
+    },
+    setModalContents (option) {
+      this.addToEditorModalContents.type = option.id;
+      this.addToEditorModalContents.examples = option.examples;
+      switch (this.addToEditorModalContents.type) {
+        case this.$CONSTANTS.EDITOR_MODAL_TYPES.IMAGE:
+          this.addToEditorModalContents.title = 'Image';
+          this.addToEditorModalContents.uploadInstruction = 'Upload a new image';
+          this.addToEditorModalContents.uploadHint = 'Click and select your image';
+          this.addToEditorModalContents.selectInstruction = 'Or select an existing image';
+          break;
+        case this.$CONSTANTS.EDITOR_MODAL_TYPES.VIDEO:
+          this.addToEditorModalContents.title = 'Video';
+          this.addToEditorModalContents.uploadInstruction = 'Upload a new video';
+          this.addToEditorModalContents.uploadHint = 'Click and select your video';
+          this.addToEditorModalContents.selectInstruction = 'Or select an existing video';
+          break;
+        default:
+          break;
+      }
     },
     onCloseModal () {
       this.openAddToEditorModal = false;
     },
     onClickItem (item) {
-      this.addImageToEditor(item.src);
-    },
-    onUploadSuccess (remoteUrl) {
-      this.editorOptions[0].examples.push({
-        src: remoteUrl
-      });
-      this.addImageToEditor(remoteUrl);
-    },
-    onUploadFail (err) {
-      console.log(err);
+      switch (this.addToEditorModalContents.type) {
+        case this.$CONSTANTS.EDITOR_MODAL_TYPES.IMAGE:
+          this.addImageToEditor(item.src);
+          break;
+        case this.$CONSTANTS.EDITOR_MODAL_TYPES.VIDEO:
+          this.addVideoToEditor(item.src);
+          break;
+        default:
+          break;
+      }
     },
     addImageToEditor (url) {
       const opening = this.$CONSTANTS.CUSTOM_TAGS.IMAGE_OPENING;
       const closing = this.$CONSTANTS.CUSTOM_TAGS.SELF_CLOSING;
       const insertion = opening + url + closing;
-      this.addToEditor(insertion);
+      this.insertAtCursor(insertion);
     },
-    addToEditor (insertion) {
-      this.editorContent += '\n' + insertion;
+    addVideoToEditor (url) {
+      const opening = this.$CONSTANTS.CUSTOM_TAGS.VIDEO_OPENING;
+      const closing = this.$CONSTANTS.CUSTOM_TAGS.SELF_CLOSING;
+      const insertion = opening + url + closing;
+      this.insertAtCursor(insertion);
     },
+    onFileInput (file) {
+      switch (this.addToEditorModalContents.type) {
+        case this.$CONSTANTS.EDITOR_MODAL_TYPES.IMAGE:
+          this.onImageInput(file);
+          break;
+        case this.$CONSTANTS.EDITOR_MODAL_TYPES.VIDEO:
+          this.onVideoInput(file);
+          break;
+        default:
+          break;
+      }
+    },
+    onImageInput (imageFile) {
+      // as proposed in the instructions
+      this.$serverConnect.uploadNewImage(imageFile)
+        .then(this.onUploadSuccess, this.onUploadFail)
+        .catch(err => this.onUploadFail(err));
+
+      // below is how I would prefer to do the same. (not using callbacks. we would also need to add 'async' modifier to this method)
+   /* try {
+        const remoteUrl = await this.$serverConnect.uploadNewImage(imageFile);
+        this.onUploadSuccess(remoteUrl);
+      } catch (err) {
+        this.onUploadFail(err);
+      } */
+    },
+    onVideoInput (videoFile) {
+      this.$serverConnect.uploadNewVideo(videoFile)
+        .then(this.onUploadSuccess, this.onUploadFail)
+        .catch(err => this.onUploadFail(err));
+    },
+    onUploadSuccess (remoteUrl) {
+      switch (this.addToEditorModalContents.type) {
+        case this.$CONSTANTS.EDITOR_MODAL_TYPES.IMAGE:
+          this.editorOptions[0].examples.push({
+            src: remoteUrl
+          });
+          break;
+        case this.$CONSTANTS.EDITOR_MODAL_TYPES.VIDEO:
+          this.editorOptions[1].examples.push({
+            src: remoteUrl
+          });
+          break;
+        default:
+          break;
+      }
+    },
+    onUploadFail (err) {
+      console.log(err);
+    },
+    insertAtCursor(insertion) {
+      // https://stackoverflow.com/questions/11076975/how-to-insert-text-into-the-textarea-at-the-current-cursor-position
+      const editorArea = document.getElementById('markdown-input-area');
+      //IE support
+      if (document.selection) {
+          editorArea.focus();
+          const sel = document.selection.createRange();
+          sel.text = insertion;
+      }
+      //MOZILLA and others
+      else if (editorArea.selectionStart || editorArea.selectionStart == '0') {
+          const startPos = editorArea.selectionStart;
+          const endPos = editorArea.selectionEnd;
+          this.editorContent = this.editorContent.substring(0, startPos)
+              + insertion
+              + this.editorContent.substring(endPos, this.editorContent.length);
+      } else {
+          this.editorContent += insertion;
+      }
+    }
   }
 };
 </script>

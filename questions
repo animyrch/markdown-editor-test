@@ -11,3 +11,5 @@
 6/ The 'file insertion' option seems a bit strage to me since a 'file' can be literally anything including an image or video for which there are already dedicated buttons. Each file type will have their own requirements and capabilities for being presented in a webpage. Do we mean insert a link to a file ? Yet, there is already a link button.
 
 7/ There is a dedicated editor option called 'Button'. Inserting a simple button is a piece of cake but what will the button do ? What kind of approach we are going to take to inject behaviour to a button ? These things can change the whole implementation.
+
+8/ What should a 'description' look like ?

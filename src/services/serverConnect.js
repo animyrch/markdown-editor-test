@@ -8,5 +8,15 @@ export default {
           reject(new Error('File upload error.'));
       }
     });
+  },
+  uploadNewVideo: () => {
+    return new Promise((resolve, reject) => {
+      const remoteUrl = 'https://assets.mixkit.co/videos/preview/mixkit-very-close-shot-of-the-leaves-of-a-tree-wet-18310-large.mp4';
+      if (remoteUrl) {
+          resolve(remoteUrl);
+      } else {
+          reject(new Error('File upload error.'));
+      }
+    });
   }
 }

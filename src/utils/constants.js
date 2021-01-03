@@ -2,7 +2,8 @@ const columnDivStyle = 'style="width: 50%;display: inline-block;"';
     
 export default {
     EDITOR_MODAL_TYPES: {
-        IMAGE: 'IMAGE'
+        IMAGE: 'IMAGE',
+        VIDEO: 'VIDEO'
     },
     EDITOR_ACTIONS: {
         PRINT_EXAMPLE: 'PRINT_EXAMPLE',
@@ -11,7 +12,8 @@ export default {
     CUSTOM_TAGS: {
         IMAGE_OPENING: '[img="',
         IMAGE_OPENING_ENCODED: '[img=&quot;',
-        VIDEO_OPENING: '[video=&quot;',
+        VIDEO_OPENING: '[video="',
+        VIDEO_OPENING_ENCODED: '[video=&quot;',
         SELF_CLOSING: '"]',
         SELF_CLOSING_ENCODED: '&quot;]'
     },

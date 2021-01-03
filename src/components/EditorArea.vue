@@ -3,6 +3,7 @@
     <v-textarea
       rows="24"
       name="markdown-input-area"
+      id="markdown-input-area"
       :value="content"
       :hint="editorHint"
       @keyup="onContentChange"
