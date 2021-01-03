@@ -14,6 +14,7 @@
       >
         <EditorOptions
           @on-print-example="onPrintExample"
+          @on-open-modal="onOpenModal"
         />
         <v-divider />
         <EditorArea
@@ -26,6 +27,12 @@
         />
       </v-card>
     </v-main>
+    <AddToEditorModal
+      :examples="addToEditorExamples"
+      :visible="openAddToEditorModal"
+      @on-cancel="openAddToEditorModal = false"
+      @on-click-item="onClickItem"
+    />
   </v-app>
 </template>
 
@@ -34,6 +41,7 @@ import './assets/main.css';
 import EditorOptions from './components/EditorOptions';
 import EditorArea from './components/EditorArea';
 import RenderArea from './components/RenderArea';
+import AddToEditorModal from './components/common/AddToEditorModal';
 
 export default {
   name: 'App',
@@ -41,11 +49,14 @@ export default {
   components: {
     EditorOptions,
     EditorArea,
-    RenderArea
+    RenderArea,
+    AddToEditorModal
   },
 
   data: () => ({
-    editorContent: '# Header 1 \n\n ## Header 2 \n\n ### Header 3 \n\n Lorem Ipsum sit amet \n\n **bold** *italic* _underline_   \n\n  [col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right]  \n\n This is a [link](https://picsum.photos/200)  \n\n [img="https://picsum.photos/200"]  \n\n [col-left][img="https://picsum.photos/200"][/col-left][col-right][img="https://picsum.photos/200"][/col-right] \n\n [table] \n [row][col-left]**Make it bold**[/col-left][col-right]**Make it bold**[/col-right] \n [row][col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right][/row] \n [row][col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right][/row] \n [/table]'
+    editorContent: '# Header 1 \n\n ## Header 2 \n\n ### Header 3 \n\n Lorem Ipsum sit amet \n\n **bold** *italic* _underline_   \n\n  [col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right]  \n\n This is a [link](https://picsum.photos/200)  \n\n [img="https://picsum.photos/200"]  \n\n [col-left][img="https://picsum.photos/200"][/col-left][col-right][img="https://picsum.photos/200"][/col-right] \n\n [table] \n [row][col-left]**Make it bold**[/col-left][col-right]**Make it bold**[/col-right] \n [row][col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right][/row] \n [row][col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right][/row] \n [/table]',
+    openAddToEditorModal: false,
+    addToEditorExamples: null
   }),
 
   methods: {
@@ -53,7 +64,21 @@ export default {
       this.editorContent = newContent;
     },
     onPrintExample (example) {
-      this.editorContent += '\n' + example;
+      this.addToEditor(example);
+    },
+    onOpenModal (option) {
+      this.addToEditorType = option.id;
+      this.addToEditorExamples = option.examples;
+      this.openAddToEditorModal = true;
+    },
+    onClickItem (item) {
+      const opening = this.$CONSTANTS.CUSTOM_TAGS.IMAGE_OPENING;
+      const closing = this.$CONSTANTS.CUSTOM_TAGS.SELF_CLOSING;
+      const insertion = opening + item.src + closing;
+      this.addToEditor(insertion);
+    },
+    addToEditor (insertion) {
+      this.editorContent += '\n' + insertion;
     }
   }
 };

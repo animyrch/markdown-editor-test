@@ -35,7 +35,7 @@ function _convertColTags (input) {
 function _convertImgTags (input) {
   return _convertSelfClosingTag({
     input,
-    selfClosingTag: CONSTANTS.CUSTOM_TAGS.IMAGE_OPENING,
+    selfClosingTag: CONSTANTS.CUSTOM_TAGS.IMAGE_OPENING_ENCODED,
     startMarkup: CONSTANTS.MARKUP.IMG_START,
     endMarkup: CONSTANTS.MARKUP.IMG_END
   });
@@ -56,7 +56,7 @@ function _convertSelfClosingTag ({ input, selfClosingTag, startMarkup, endMarkup
       startMarkup +
       input.substring(matchedStartingIndices[i]+selfClosingTag.length, matchedEndingIndices[i]) + 
       endMarkup +
-      input.substring(matchedEndingIndices[i]+CONSTANTS.CUSTOM_TAGS.SELF_CLOSING.length, input.length);
+      input.substring(matchedEndingIndices[i]+CONSTANTS.CUSTOM_TAGS.SELF_CLOSING_ENCODED.length, input.length);
   }
   return input;
 }
@@ -72,9 +72,9 @@ function _findSelfClosingTagPlacements (input, selfClosingTag) {
       let j = i;
       while(!detectedTagClosing && !isInputEnd) {
         isInputEnd = ++j === input.length;
-        detectedTagClosing = input.substring(j-CONSTANTS.CUSTOM_TAGS.SELF_CLOSING.length, j) === CONSTANTS.CUSTOM_TAGS.SELF_CLOSING;
+        detectedTagClosing = input.substring(j-CONSTANTS.CUSTOM_TAGS.SELF_CLOSING_ENCODED.length, j) === CONSTANTS.CUSTOM_TAGS.SELF_CLOSING_ENCODED;
         if (detectedTagClosing) {
-          matchedEndingIndices.push(j-CONSTANTS.CUSTOM_TAGS.SELF_CLOSING.length);
+          matchedEndingIndices.push(j-CONSTANTS.CUSTOM_TAGS.SELF_CLOSING_ENCODED.length);
         }
       }
     }

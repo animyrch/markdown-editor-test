@@ -1,14 +1,19 @@
 const columnDivStyle = 'style="width: 50%;display: inline-block;"';
     
 export default {
+    EDITOR_MODAL_TYPES: {
+        IMAGE: 'IMAGE'
+    },
     EDITOR_ACTIONS: {
         PRINT_EXAMPLE: 'PRINT_EXAMPLE',
-        OPEN_MODEL: 'OPEN_MODEL'
+        OPEN_MODAL: 'OPEN_MODAL'
     },
     CUSTOM_TAGS: {
-        IMAGE_OPENING: '[img=&quot;',
+        IMAGE_OPENING: '[img="',
+        IMAGE_OPENING_ENCODED: '[img=&quot;',
         VIDEO_OPENING: '[video=&quot;',
-        SELF_CLOSING: '&quot;]'
+        SELF_CLOSING: '"]',
+        SELF_CLOSING_ENCODED: '&quot;]'
     },
     REGEX: {
         TABLE_START: /\[table\]/g,
