@@ -21,7 +21,7 @@ export default {
 
   props: {
     options: {
-      type: Array,
+      type: Object,
       required: true
     }
   },
@@ -31,8 +31,7 @@ export default {
       if (option.actionType === this.$CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE && option.content) {
         this.$emit('on-print-example', option.content);
       }
-      if (option.actionType === this.$CONSTANTS.EDITOR_ACTIONS.OPEN_MODAL && option.examples) {
-        console.log(option.examples);
+      if (option.actionType === this.$CONSTANTS.EDITOR_ACTIONS.OPEN_MODAL && option.storedItems) {
         this.$emit('on-open-modal', option);
       }
     }

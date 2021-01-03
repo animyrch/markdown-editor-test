@@ -13,7 +13,7 @@
         </v-card-subtitle>
         <v-list-item>
           <v-file-input
-            :label="uploadHint"
+            :label="contents.uploadHint"
             filled
             prepend-icon="mdi-camera"
             v-model='selectedFile'
@@ -26,7 +26,7 @@
         <v-row
           justify="center"
         >
-          <template v-for="(item, index) in contents.examples">
+          <template v-for="(item, index) in contents.storedItems">
             <v-col
               :cols="contents.type === $CONSTANTS.EDITOR_MODAL_TYPES.IMAGE ? 6 : 12"
               :key="index"
