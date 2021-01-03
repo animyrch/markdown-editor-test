@@ -38,7 +38,7 @@ export default {
         COL_RIGHT_END: '</div>',
         IMG_START: '<img src="',
         IMG_END: '" alt="">',
-        VIDEO_START: '<video controls width="250"><source src="',
+        VIDEO_START: '<video controls><source src="',
         VIDEO_END: '" type="video/mp4">Sorry, your browser doesn\'t support embedded videos.</video>'
     }
 }

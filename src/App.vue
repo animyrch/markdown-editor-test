@@ -6,51 +6,44 @@
       absolute
       color="white"
     >
-      <v-toolbar-title>Content</v-toolbar-title>
+      <v-sheet
+        class="pa-4"
+      >
+        <v-toolbar-title>Content</v-toolbar-title>
+      </v-sheet>
     </v-app-bar>
     <v-main>
-      <v-card
-        outlined
+      <v-sheet
+        class="px-8 py-4"
       >
-        <EditorOptions
-          :options="editorOptions"
-          @on-print-example="onPrintExample"
-          @on-open-modal="onOpenModal"
-        />
-        <v-divider />
-        <EditorArea
-          :content="editorContent"
-          @on-content-changed="onContentChange"
-        />
-        <v-divider />
-        <RenderArea
-          :source="editorContent"
-        />
-      </v-card>
+        <v-card
+          outlined
+        >
+          <EditorOptions
+            :options="editorOptions"
+            @on-print-example="onPrintExample"
+            @on-open-modal="onOpenModal"
+          />
+          <v-divider />
+          <EditorArea
+            :content="editorContent"
+            @on-content-changed="onContentChange"
+          />
+          <v-divider />
+          <RenderArea
+            :source="editorContent"
+          />
+        </v-card>
+      </v-sheet>
     </v-main>
     <ModalAddToEditor
       v-if="addToEditorModalContents.type"
-      :type="addToEditorModalContents.type"
-      :examples="addToEditorModalContents.examples"
+      :contents="addToEditorModalContents"
       :visible="openAddToEditorModal"
-      :uploadHint="addToEditorModalContents.uploadHint"
       :uploadHandler="onFileInput"
       @on-cancel="onCloseModal"
       @on-click-item="onClickItem"
-    >
-      <template v-slot:title>
-        {{ addToEditorModalContents.title}}
-      </template>
-      <template v-slot:uploadInstruction>
-        {{ addToEditorModalContents.uploadInstruction }}
-      </template>
-      <template v-slot:uploadHint>
-        {{ addToEditorModalContents.uploadHint }}
-      </template>
-      <template v-slot:selectInstruction>
-        {{ addToEditorModalContents.selectInstruction }}
-      </template>
-    </ModalAddToEditor>
+    />
   </v-app>
 </template>
 
@@ -281,4 +274,23 @@ export default {
     }
   }
 };
+/* <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+    >
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar> */
 </script>
+
+

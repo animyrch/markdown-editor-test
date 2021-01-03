@@ -7,6 +7,7 @@
       :value="content"
       :hint="editorHint"
       @keyup="onContentChange"
+      placeholder="placeholder"
     ></v-textarea>
   </div>
 </template>

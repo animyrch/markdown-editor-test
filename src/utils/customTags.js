@@ -1,9 +1,3 @@
-// addTableTags
-// addRowTags
-// addColLeftTags
-// addColRightTags
-
-// addTag
 import CONSTANTS from './constants';
 
 function replaceTags (input) {
