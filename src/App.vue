@@ -44,6 +44,11 @@
       @on-cancel="onCloseModal"
       @on-click-item="onClickItem"
     />
+    <Snackbar
+      :visible="showSnackbar"
+      :text="snackbarMessage"
+      @on-cancel="showSnackbar = false"
+    />
   </v-app>
 </template>
 
@@ -53,6 +58,7 @@ import EditorOptions from './components/EditorOptions';
 import EditorArea from './components/EditorArea';
 import RenderArea from './components/RenderArea';
 import ModalAddToEditor from './components/ModalAddToEditor';
+import Snackbar from './components/generic/Snackbar';
 
 export default {
   name: 'App',
@@ -61,13 +67,16 @@ export default {
     EditorOptions,
     EditorArea,
     RenderArea,
-    ModalAddToEditor
+    ModalAddToEditor,
+    Snackbar
   },
 
   data () {
     return {
       editorContent: '# Header 1 \n\n ## Header 2 \n\n ### Header 3 \n\n Lorem Ipsum sit amet \n\n **bold** *italic* _underline_   \n\n  [col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right]  \n\n This is a [link](https://example.com)  \n\n [img="https://picsum.photos/200"]  \n\n [col-left][img="https://picsum.photos/200"][/col-left][col-right][img="https://picsum.photos/200"][/col-right] \n\n [table] \n [row][col-left]**Make it bold**[/col-left][col-right]**Make it bold**[/col-right] \n [row][col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right][/row] \n [row][col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right][/row] \n [/table]',
       openAddToEditorModal: false,
+      showSnackbar: false,
+      snackbarMessage: '',
       editorOptions: [
           { 
             title: 'Image',
@@ -248,9 +257,12 @@ export default {
         default:
           break;
       }
+      this.snackbarMessage = 'Upload complete';
+      this.showSnackbar = true;
     },
     onUploadFail (err) {
-      console.log(err);
+      this.snackbarMessage = err.message;
+      this.showSnackbar = true;
     },
     insertAtCursor(insertion) {
       // https://stackoverflow.com/questions/11076975/how-to-insert-text-into-the-textarea-at-the-current-cursor-position
@@ -271,26 +283,13 @@ export default {
       } else {
           this.editorContent += insertion;
       }
+      this.snackbarMessage = 'New element inserted';
+      this.showSnackbar = true;
     }
   }
 };
-/* <v-snackbar
-      v-model="snackbar"
-      :timeout="timeout"
-    >
-      {{ text }}
-
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="blue"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar> */
+// ADD PAGE
+// ADD VIDEO AND IMAGE ITEM COMPONENTS
 </script>
 
 
