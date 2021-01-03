@@ -111,7 +111,11 @@ export default {
             actionType: this.$CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
             content: '\n> Blockquote'
           },
-          { title: 'Footnote' },
+          { 
+            title: 'Footnote',
+            actionType: this.$CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
+            content: '^[Footnote]'
+          },
           { 
             title: 'Link',
             actionType: this.$CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
@@ -125,7 +129,7 @@ export default {
             content: '[col-left]content[/col-left][col-right]content[/col-right]'
           },
           {
-            title: 'Table' , 
+            title: 'Table',
             actionType: this.$CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
             content: '[table]content[/table]'
           },
