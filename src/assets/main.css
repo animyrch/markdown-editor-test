@@ -26,3 +26,18 @@ video{
 .v-application p{
     margin-bottom: 0px !important;
 }
+
+.md-column{
+    width: 50%;
+    display: inline-block;
+}
+
+.md-description{
+    font-weight: 300;
+}
+.md-description::first-letter{
+    font-size: 200%;
+    font-weight: 900;
+    text-transform: lowercase;
+    padding-left: 20px;
+}

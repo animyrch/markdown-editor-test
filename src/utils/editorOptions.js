@@ -30,7 +30,11 @@ export default {
         }
       ]
     },
-    //{ title: 'Description' },
+    description: { 
+      title: 'Description',
+      actionType: CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
+      content: '[desc]content[/desc]'
+    },
     quote: {
       title: 'Quote',
       actionType: CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,

@@ -4,6 +4,7 @@ function replaceTags (input) {
   input = _convertTableTags(input);
   input = _convertRowTags(input);
   input = _convertColTags(input);
+  input = _convertDescTags(input);
   input = _convertImgTags(input);
   input = _convertVideoTags(input);
   return input;
@@ -25,6 +26,11 @@ function _convertColTags (input) {
     .replace(CONSTANTS.REGEX.COL_RIGHT_START, CONSTANTS.MARKUP.COL_RIGHT_START)
     .replace(CONSTANTS.REGEX.COL_LEFT_END, CONSTANTS.MARKUP.COL_LEFT_END)
     .replace(CONSTANTS.REGEX.COL_RIGHT_END, CONSTANTS.MARKUP.COL_RIGHT_END);
+}
+function _convertDescTags (input) {
+  return input
+    .replace(CONSTANTS.REGEX.DESC_START, CONSTANTS.MARKUP.DESC_START)
+    .replace(CONSTANTS.REGEX.DESC_END, CONSTANTS.MARKUP.DESC_END);
 }
 function _convertImgTags (input) {
   return _convertSelfClosingTag({

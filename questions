@@ -13,3 +13,14 @@
 7/ There is a dedicated editor option called 'Button'. Inserting a simple button is a piece of cake but what will the button do ? What kind of approach we are going to take to inject behaviour to a button ? These things can change the whole implementation.
 
 8/ What should a 'description' look like ?
+
+
+
+Responses: 
+1/ Indicate that coloring was not easy to implement.
+
+3/ enforce underscores
+
+5/ description => some special presentation
+
+7/ button => button like link behaviour

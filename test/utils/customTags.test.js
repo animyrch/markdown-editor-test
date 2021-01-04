@@ -16,7 +16,13 @@ describe('replaceTags', () => {
     });
     it('can replace col-left tag with relevant html markup', () => {
         const inputText = '[col-left]column left[/col-left][col-right]column right[/col-right]';
-        const expectedMarkupStart = '<div style="width: 50%;display: inline-block;">column left</div><div style="width: 50%;display: inline-block;">column right</div>';
+        const expectedMarkupStart = '<div class="md-column">column left</div><div class="md-column">column right</div>';
+        const replacement = replaceTags(inputText);
+        expect(replacement).toBe(expectedMarkupStart);
+    });
+    it('can replace desc tag with relevant html markup', () => {
+        const inputText = '[desc]content[/desc][desc]content[/desc]';
+        const expectedMarkupStart = '<p class="md-description">content</p><p class="md-description">content</p>';
         const replacement = replaceTags(inputText);
         expect(replacement).toBe(expectedMarkupStart);
     });
@@ -28,7 +34,7 @@ describe('replaceTags', () => {
     });
     it('can replace all self-closing video tags with relevant html markup', () => {
         const inputText = '[video=&quot;https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4&quot;][video=&quot;https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4&quot;]';
-        const expectedMarkupStart = '<video controls width="250"><source src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4" type="video/mp4">Sorry, your browser doesn\'t support embedded videos.</video><video controls width="250"><source src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4" type="video/mp4">Sorry, your browser doesn\'t support embedded videos.</video>';
+        const expectedMarkupStart = '<video controls><source src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4" type="video/mp4">Sorry, your browser doesn\'t support embedded videos.</video><video controls><source src="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4" type="video/mp4">Sorry, your browser doesn\'t support embedded videos.</video>';
         const replacement = replaceTags(inputText);
         expect(replacement).toBe(expectedMarkupStart);
     });

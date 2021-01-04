@@ -1,4 +1,4 @@
-const columnDivStyle = 'style="width: 50%;display: inline-block;"';
+const columnClass = 'md-column';
     
 export default {
     EDITOR_MODAL_TYPES: {
@@ -26,16 +26,20 @@ export default {
         COL_RIGHT_START: /\[col-right\]/g,
         COL_LEFT_END: /\[\/col-left\]/g,
         COL_RIGHT_END: /\[\/col-right\]/g,
+        DESC_START: /\[desc\]/g,
+        DESC_END: /\[\/desc\]/g,
     },
     MARKUP: {
         TABLE_START: '<table><tbody>',
         TABLE_END: '</tbody></table>',
         ROW_START: '<tr><td>',
         ROW_END: '</td></tr>',
-        COL_LEFT_START: `<div ${columnDivStyle}>`,
-        COL_RIGHT_START: `<div ${columnDivStyle}>`,
+        COL_LEFT_START: `<div class="${columnClass}">`,
+        COL_RIGHT_START: `<div class="${columnClass}">`,
         COL_LEFT_END: '</div>',
         COL_RIGHT_END: '</div>',
+        DESC_START: '<p class="md-description">',
+        DESC_END: '</p>',
         IMG_START: '<img src="',
         IMG_END: '" alt="">',
         VIDEO_START: '<video controls><source src="',
