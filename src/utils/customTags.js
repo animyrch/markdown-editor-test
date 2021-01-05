@@ -7,6 +7,7 @@ function replaceTags (input) {
   input = _convertDescTags(input);
   input = _convertImgTags(input);
   input = _convertVideoTags(input);
+  input = _convertBtnTags(input);
   return input;
 }
 
@@ -48,42 +49,50 @@ function _convertVideoTags (input) {
     endMarkup: CONSTANTS.MARKUP.VIDEO_END
   });
 }
+function _convertBtnTags (input) {
+  input = _convertSelfClosingTag ({ 
+    input, 
+    selfClosingTag: CONSTANTS.CUSTOM_TAGS.BTN_WITH_TARGET_ENCODED, 
+    startMarkup: CONSTANTS.MARKUP.BUTTON_START, 
+    endMarkup: CONSTANTS.MARKUP.BUTTON_OPENING_END
+  });
+  return input
+    .replace(CONSTANTS.REGEX.BUTTON_END, CONSTANTS.MARKUP.BUTTON_END);
+}
+
 function _convertSelfClosingTag ({ input, selfClosingTag, startMarkup, endMarkup }) {
-  const { matchedStartingIndices, matchedEndingIndices } = _findSelfClosingTagPlacements(input, selfClosingTag);
+  const foundPlacements = _findSelfClosingTagPlacements(input, selfClosingTag);
   // going backwards so that changing length of input doesn't bother us.
-  for (let i=matchedEndingIndices.length-1; i >= 0; i--) {
-    input = input.substring(0, matchedStartingIndices[i]) + 
+  for (let i=foundPlacements.length-1; i >= 0; i--) {
+    input = input.substring(0, foundPlacements[i].start) + 
       startMarkup +
-      input.substring(matchedStartingIndices[i]+selfClosingTag.length, matchedEndingIndices[i]) + 
+      input.substring(foundPlacements[i].start+selfClosingTag.length, foundPlacements[i].end-CONSTANTS.CUSTOM_TAGS.SELF_CLOSING_ENCODED.length) + 
       endMarkup +
-      input.substring(matchedEndingIndices[i]+CONSTANTS.CUSTOM_TAGS.SELF_CLOSING_ENCODED.length, input.length);
+      input.substring(foundPlacements[i].end, input.length);
   }
   return input;
 }
 function _findSelfClosingTagPlacements (input, selfClosingTag) {
-  const matchedStartingIndices = [];
-  const matchedEndingIndices = [];
+  const foundPlacements = [];
   for(let i=0, len=input.length; i<len;i++) {
     const detectedTagOpening = input.substring(i, i+selfClosingTag.length) === selfClosingTag;
     if (detectedTagOpening) {
-      matchedStartingIndices.push(i);
       let detectedTagClosing = false;
       let isInputEnd = false;
       let j = i;
       while(!detectedTagClosing && !isInputEnd) {
         isInputEnd = ++j === input.length;
         detectedTagClosing = input.substring(j-CONSTANTS.CUSTOM_TAGS.SELF_CLOSING_ENCODED.length, j) === CONSTANTS.CUSTOM_TAGS.SELF_CLOSING_ENCODED;
-        if (detectedTagClosing) {
-          matchedEndingIndices.push(j-CONSTANTS.CUSTOM_TAGS.SELF_CLOSING_ENCODED.length);
-        }
       }
+      foundPlacements.push({
+        start: i,
+        end: j
+      });
     }
   }
-  return {
-    matchedStartingIndices,
-    matchedEndingIndices
-  };
+  return foundPlacements;
 }
+
 export {
   replaceTags
 };

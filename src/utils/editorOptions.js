@@ -50,7 +50,11 @@ export default {
       actionType: CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
       content: 'This is a [link](https://example.com)  '
     },
-    //{ title: 'Button' },
+    button: {
+      title: 'Button',
+      actionType: CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
+      content: '[btn target="https://example.com"]Content[/btn]'
+    },
     //{ title: 'File' },
     twoColumns: { 
       title: '2 columns', 

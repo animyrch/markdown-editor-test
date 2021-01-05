@@ -15,7 +15,9 @@ export default {
         VIDEO_OPENING: '[video="',
         VIDEO_OPENING_ENCODED: '[video=&quot;',
         SELF_CLOSING: '"]',
-        SELF_CLOSING_ENCODED: '&quot;]'
+        SELF_CLOSING_ENCODED: '&quot;]',
+        BTN_WITH_TARGET: '[btn target="',
+        BTN_WITH_TARGET_ENCODED: '[btn target=&quot;'
     },
     REGEX: {
         TABLE_START: /\[table\]/g,
@@ -28,6 +30,7 @@ export default {
         COL_RIGHT_END: /\[\/col-right\]/g,
         DESC_START: /\[desc\]/g,
         DESC_END: /\[\/desc\]/g,
+        BUTTON_END: /\[\/btn\]/g,
     },
     MARKUP: {
         TABLE_START: '<table><tbody>',
@@ -43,6 +46,9 @@ export default {
         IMG_START: '<img src="',
         IMG_END: '" alt="">',
         VIDEO_START: '<video controls><source src="',
-        VIDEO_END: '" type="video/mp4">Sorry, your browser doesn\'t support embedded videos.</video>'
+        VIDEO_END: '" type="video/mp4">Sorry, your browser doesn\'t support embedded videos.</video>',
+        BUTTON_START: '<button class="md-button" onclick="location.href = \'',
+        BUTTON_OPENING_END: '\'">',
+        BUTTON_END: '</button>'
     }
 }

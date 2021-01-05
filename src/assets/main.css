@@ -23,6 +23,42 @@ video{
     width: 50%;
 }
 
+.md-button{
+    height: 36px;
+    min-width: 64px;
+    padding: 0 16px;
+    background-color: #bbb8b8;
+    font-size: .875rem;
+    color: rgba(0,0,0,.87);
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12) !important;
+    align-items: center;
+    border-radius: 4px;
+    display: inline-flex;
+    flex: 0 0 auto;
+    font-weight: 500;
+    letter-spacing: .0892857143em;
+    justify-content: center;
+    outline: 0;
+    text-decoration: none;
+    text-indent: .0892857143em;
+    text-transform: uppercase;
+    transition-duration: .28s;
+    transition-property: box-shadow,opacity;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: pointer;
+    border-style: none;
+    overflow: visible;
+}
+.md-button:hover{
+    background-color: #9c9c9c;
+}
+.md-button:active{
+    opacity: 0.8;
+}
+
 .v-application p{
     margin-bottom: 0px !important;
 }
