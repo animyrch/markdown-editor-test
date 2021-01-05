@@ -22,7 +22,7 @@ describe('replaceTags', () => {
     });
     it('can replace desc tag with relevant html markup', () => {
         const inputText = '[desc]content[/desc][desc]content[/desc]';
-        const expectedMarkupStart = '<p class="md-description">content</p><p class="md-description">content</p>';
+        const expectedMarkupStart = '<span class="md-description">content</span><span class="md-description">content</span>';
         const replacement = replaceTags(inputText);
         expect(replacement).toBe(expectedMarkupStart);
     });
@@ -51,7 +51,7 @@ describe('replaceTags', () => {
     });
     it('can replace file tag as encoded by third party markdown renderer with relevant html markup', () => {
         const inputText = '[file target=&quot;https://example.com/example.pdf&quot;]Content[/file][file target=&quot;https://example.com/example.pdf&quot;]Content[/file]';
-        const expectedMarkupStart = '<a href="https://example.com/example.pdf">Content</a><a href="https://example.com/example.pdf">Content</a>';
+        const expectedMarkupStart = '<a href="https://example.com/example.pdf" download>Content</a><a href="https://example.com/example.pdf" download>Content</a>';
         const replacement = replaceTags(inputText);
         expect(replacement).toBe(expectedMarkupStart);
     });
