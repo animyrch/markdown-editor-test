@@ -8,6 +8,7 @@ function replaceTags (input) {
   input = _convertImgTags(input);
   input = _convertVideoTags(input);
   input = _convertBtnTags(input);
+  input = _convertFileTags(input);
   return input;
 }
 
@@ -58,6 +59,16 @@ function _convertBtnTags (input) {
   });
   return input
     .replace(CONSTANTS.REGEX.BUTTON_END, CONSTANTS.MARKUP.BUTTON_END);
+}
+function _convertFileTags (input) {
+  input = _convertSelfClosingTag ({ 
+    input, 
+    selfClosingTag: CONSTANTS.CUSTOM_TAGS.FILE_WITH_TARGET_ENCODED, 
+    startMarkup: CONSTANTS.MARKUP.FILE_START, 
+    endMarkup: CONSTANTS.MARKUP.FILE_OPENING_END
+  });
+  return input
+    .replace(CONSTANTS.REGEX.FILE_END, CONSTANTS.MARKUP.FILE_END);
 }
 
 function _convertSelfClosingTag ({ input, selfClosingTag, startMarkup, endMarkup }) {

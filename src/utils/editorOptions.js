@@ -2,7 +2,7 @@ import CONSTANTS from './constants';
 
 export default {
     image: { 
-      title: 'Image',
+      title: CONSTANTS.CONTENT.IMAGE,
       id: CONSTANTS.EDITOR_MODAL_TYPES.IMAGE,
       actionType: CONSTANTS.EDITOR_ACTIONS.OPEN_MODAL,
       storedItems: [
@@ -18,7 +18,7 @@ export default {
       ]
     },
     video: {
-      title: 'Video',
+      title: CONSTANTS.CONTENT.VIDEO,
       id: CONSTANTS.EDITOR_MODAL_TYPES.VIDEO,
       actionType: CONSTANTS.EDITOR_ACTIONS.OPEN_MODAL,
       storedItems: [
@@ -31,44 +31,54 @@ export default {
       ]
     },
     description: { 
-      title: 'Description',
+      title: CONSTANTS.CONTENT.DESC,
       actionType: CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
-      content: '[desc]content[/desc]'
+      content: `[desc]${CONSTANTS.CONTENT.EXAMPLE_TAG_CONTENT}[/desc]`
     },
     quote: {
-      title: 'Quote',
+      title: CONSTANTS.CONTENT.QUOTE,
       actionType: CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
-      content: '\n> Blockquote'
+      content: `\n> ${CONSTANTS.CONTENT.BLOCKQUOTE}`,
     },
     footnote: { 
-      title: 'Footnote',
+      title: CONSTANTS.CONTENT.FOOTNOTE,
       actionType: CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
-      content: '^[Footnote]'
+      content: `^[${CONSTANTS.CONTENT.FOOTNOTE}]`
     },
     link: { 
-      title: 'Link',
+      title: CONSTANTS.CONTENT.LINK,
       actionType: CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
-      content: 'This is a [link](https://example.com)  '
+      content: `${CONSTANTS.CONTENT.EXPLANATION} [${CONSTANTS.CONTENT.LINK}](https://example.com)  `
     },
     button: {
-      title: 'Button',
+      title: CONSTANTS.CONTENT.BUTTON,
       actionType: CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
-      content: '[btn target="https://example.com"]Content[/btn]'
+      content: `[btn target="https://example.com"]${CONSTANTS.CONTENT.EXAMPLE_TAG_CONTENT}[/btn]`
     },
-    //{ title: 'File' },
+    file: {
+      title: CONSTANTS.CONTENT.FILE,
+      id: CONSTANTS.EDITOR_MODAL_TYPES.FILE,
+      actionType: CONSTANTS.EDITOR_ACTIONS.OPEN_MODAL,
+      storedItems: [
+        {
+          src: 'https://www.w3schools.com/images/myw3schoolsimage.jpg'
+        }
+      ]
+      // content: `[file target="https://www.w3schools.com/images/myw3schoolsimage.jpg"]${CONSTANTS.CONTENT.EXPLANATION} ${CONSTANTS.CONTENT.FILE}[/file]`
+    },
     twoColumns: { 
-      title: '2 columns', 
+      title: CONSTANTS.CONTENT.TWO_COLUMNS,
       actionType: CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
-      content: '[col-left]content[/col-left][col-right]content[/col-right]'
+      content: `[col-left]${CONSTANTS.CONTENT.EXAMPLE_TAG_CONTENT}[/col-left][col-right]${CONSTANTS.CONTENT.EXAMPLE_TAG_CONTENT}[/col-right]`
     },
     table: {
-      title: 'Table',
+      title: CONSTANTS.CONTENT.TABLE,
       actionType: CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
-      content: '[table]content[/table]'
+      content: `[table]${CONSTANTS.CONTENT.EXAMPLE_TAG_CONTENT}[/table]`
     },
     tableRow: { 
-      title: 'Table row', 
+      title: CONSTANTS.CONTENT.TABLE_ROW,
       actionType: CONSTANTS.EDITOR_ACTIONS.PRINT_EXAMPLE,
-      content: '[row]content[/row]'
+      content: `[row]${CONSTANTS.CONTENT.EXAMPLE_TAG_CONTENT}[/row]`
     }
 };

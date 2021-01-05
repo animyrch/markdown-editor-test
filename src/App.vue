@@ -13,7 +13,6 @@ export default {
     MarkdownEditor
   }
 };
-// ADD VIDEO AND IMAGE ITEM COMPONENTS
 </script>
 
 

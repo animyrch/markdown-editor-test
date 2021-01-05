@@ -15,7 +15,7 @@
           <v-file-input
             :label="contents.uploadHint"
             filled
-            prepend-icon="mdi-camera"
+            :prepend-icon="$CONSTANTS.EDITOR_MODAL_TYPES.FILE ? 'mdi-file' : 'mdi-camera'"
             v-model='selectedFile'
             @change="uploadHandler"
           ></v-file-input>
@@ -26,48 +26,21 @@
         <v-row
           justify="center"
         >
-          <template v-for="(item, index) in contents.storedItems">
-            <v-col
-              :cols="contents.type === $CONSTANTS.EDITOR_MODAL_TYPES.IMAGE ? 6 : 12"
-              :key="index"
-            >
-              <v-img
-                v-if="contents.type === $CONSTANTS.EDITOR_MODAL_TYPES.IMAGE"
-                aspect-ratio="1"
-                :src="item.src"
-                @click="onClickItem(item)"
-              ></v-img>
-              <div
-                v-if="contents.type === $CONSTANTS.EDITOR_MODAL_TYPES.VIDEO"
-              >
-                <v-row>
-                  <v-col
-                    cols='8'
-                  >
-                    <video
-                      controls
-                    >
-                      <source
-                        :src="item.src"
-                        type="video/mp4"
-                      >
-                        Sorry, your browser doesn\'t support embedded videos
-                    </video>
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    align-self="center"
-                  >
-                    <v-btn
-                      @click="onClickItem(item)"
-                    >
-                      Select
-                    </v-btn>
-                  </v-col>
-                </v-row>
-              </div>
-            </v-col>
-          </template>
+          <SelectionAreaVideo
+            v-if="contents.type === $CONSTANTS.EDITOR_MODAL_TYPES.VIDEO"
+            :storedItems="contents.storedItems"
+            @on-click-item="onClickItem"
+          />
+          <SelectionAreaImage
+            v-if="contents.type === $CONSTANTS.EDITOR_MODAL_TYPES.IMAGE"
+            :storedItems="contents.storedItems"
+            @on-click-item="onClickItem"
+          />
+          <SelectionAreaFile
+            v-if="contents.type === $CONSTANTS.EDITOR_MODAL_TYPES.FILE"
+            :storedItems="contents.storedItems"
+            @on-click-item="onClickItem"
+          />
         </v-row>
       </v-list>
     </template>
@@ -76,12 +49,18 @@
 
 <script>
 import Modal from './generic/Modal';
+import SelectionAreaVideo from './SelectionAreaVideo';
+import SelectionAreaImage from './SelectionAreaImage';
+import SelectionAreaFile from './SelectionAreaFile';
 
 export default {
   name: 'ModalAddToEditor',
 
   components: {
-    Modal
+    Modal,
+    SelectionAreaVideo,
+    SelectionAreaImage,
+    SelectionAreaFile
   },
 
   props: {
@@ -124,9 +103,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-video{
-  width: 100%;
-}
-</style>

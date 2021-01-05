@@ -1,3 +1,5 @@
+import CONSTANTS from '../utils/constants';
+
 export default {
   uploadNewImage: () => {
     return new Promise((resolve, reject) => {
@@ -5,7 +7,7 @@ export default {
       if (remoteUrl) {
           resolve(remoteUrl);
       } else {
-          reject(new Error('File upload error.'));
+          reject(new Error(CONSTANTS.CONTENT.UPLOAD_FAILURE));
       }
     });
   },
@@ -15,7 +17,17 @@ export default {
       if (remoteUrl) {
           resolve(remoteUrl);
       } else {
-          reject(new Error('File upload error.'));
+        reject(new Error(CONSTANTS.CONTENT.UPLOAD_FAILURE));
+      }
+    });
+  },
+  uploadNewFile: () => {
+    return new Promise((resolve, reject) => {
+      const remoteUrl = 'https://www.ameli.fr/sites/default/files/sample-pdf.pdf';
+      if (remoteUrl) {
+          resolve(remoteUrl);
+      } else {
+        reject(new Error(CONSTANTS.CONTENT.UPLOAD_FAILURE));
       }
     });
   }

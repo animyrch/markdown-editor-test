@@ -9,7 +9,9 @@
       <v-sheet
         class="pa-4"
       >
-        <v-toolbar-title>Content</v-toolbar-title>
+        <v-toolbar-title>
+          {{ $CONSTANTS.CONTENT.EXAMPLE_TAG_CONTENT }}
+        </v-toolbar-title>
       </v-sheet>
     </v-app-bar>
     <v-main>
@@ -73,7 +75,7 @@ export default {
 
   data () {
     return {
-      editorContent: '# Header 1 \n\n ## Header 2 \n\n ### Header 3 \n\n Lorem Ipsum sit amet \n\n **bold** *italic* _underline_   \n\n  [col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right]  \n\n This is a [link](https://example.com)  \n\n [img="https://picsum.photos/200"]  \n\n [col-left][img="https://picsum.photos/200"][/col-left][col-right][img="https://picsum.photos/200"][/col-right] \n\n [table] \n [row][col-left]**Make it bold**[/col-left][col-right]**Make it bold**[/col-right] \n [row][col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right][/row] \n [row][col-left]Content in the left column[/col-left][col-right]Content in the right column[/col-right][/row] \n [/table]',
+      editorContent: this.$CONSTANTS.CONTENT.EDITOR_START_TEXT,
       openAddToEditorModal: false,
       showSnackbar: false,
       snackbarMessage: '',
@@ -106,16 +108,22 @@ export default {
       this.addToEditorModalContents.storedItems = option.storedItems;
       switch (this.addToEditorModalContents.type) {
         case this.$CONSTANTS.EDITOR_MODAL_TYPES.IMAGE:
-          this.addToEditorModalContents.title = 'Image';
-          this.addToEditorModalContents.uploadInstruction = 'Upload a new image';
-          this.addToEditorModalContents.uploadHint = 'Click and select your image';
-          this.addToEditorModalContents.selectInstruction = 'Or select an existing image';
+          this.addToEditorModalContents.title = this.$CONSTANTS.CONTENT.IMAGE;
+          this.addToEditorModalContents.uploadInstruction = this.$CONSTANTS.CONTENT.UPLOAD_IMAGE;
+          this.addToEditorModalContents.uploadHint = this.$CONSTANTS.CONTENT.UPLOAD_HINT_IMAGE;
+          this.addToEditorModalContents.selectInstruction = this.$CONSTANTS.CONTENT.SELECT_IMAGE;
           break;
         case this.$CONSTANTS.EDITOR_MODAL_TYPES.VIDEO:
-          this.addToEditorModalContents.title = 'Video';
-          this.addToEditorModalContents.uploadInstruction = 'Upload a new video';
-          this.addToEditorModalContents.uploadHint = 'Click and select your video';
-          this.addToEditorModalContents.selectInstruction = 'Or select an existing video';
+          this.addToEditorModalContents.title = this.$CONSTANTS.CONTENT.VIDEO;
+          this.addToEditorModalContents.uploadInstruction = this.$CONSTANTS.CONTENT.UPLOAD_VIDEO;
+          this.addToEditorModalContents.uploadHint = this.$CONSTANTS.CONTENT.UPLOAD_HINT_VIDEO;
+          this.addToEditorModalContents.selectInstruction = this.$CONSTANTS.CONTENT.SELECT_VIDEO;
+          break;
+        case this.$CONSTANTS.EDITOR_MODAL_TYPES.FILE:
+          this.addToEditorModalContents.title = this.$CONSTANTS.CONTENT.FILE;
+          this.addToEditorModalContents.uploadInstruction = this.$CONSTANTS.CONTENT.UPLOAD_FILE;
+          this.addToEditorModalContents.uploadHint = this.$CONSTANTS.CONTENT.UPLOAD_HINT_FILE;
+          this.addToEditorModalContents.selectInstruction = this.$CONSTANTS.CONTENT.SELECT_FILE;
           break;
         default:
           break;
@@ -131,6 +139,9 @@ export default {
           break;
         case this.$CONSTANTS.EDITOR_MODAL_TYPES.VIDEO:
           this.addVideoToEditor(item.src);
+          break;
+        case this.$CONSTANTS.EDITOR_MODAL_TYPES.FILE:
+          this.addFileToEditor(item.src);
           break;
         default:
           break;
@@ -148,6 +159,14 @@ export default {
       const insertion = opening + url + closing;
       this.insertAtCursor(insertion);
     },
+    addFileToEditor (url) {
+      const opening = this.$CONSTANTS.CUSTOM_TAGS.FILE_WITH_TARGET;
+      const closing = this.$CONSTANTS.CUSTOM_TAGS.SELF_CLOSING +
+        this.$CONSTANTS.CONTENT.EXAMPLE_TAG_CONTENT +
+        this.$CONSTANTS.CUSTOM_TAGS.FILE_CLOSING;
+      const insertion = opening + url + closing;
+      this.insertAtCursor(insertion);
+    },
     onFileInput (file) {
       switch (this.addToEditorModalContents.type) {
         case this.$CONSTANTS.EDITOR_MODAL_TYPES.IMAGE:
@@ -155,6 +174,9 @@ export default {
           break;
         case this.$CONSTANTS.EDITOR_MODAL_TYPES.VIDEO:
           this.onVideoInput(file);
+          break;
+        case this.$CONSTANTS.EDITOR_MODAL_TYPES.FILE:
+          this.onManualFileInput(file);
           break;
         default:
           break;
@@ -179,6 +201,11 @@ export default {
         .then(this.onUploadSuccess, this.onUploadFail)
         .catch(err => this.onUploadFail(err));
     },
+    onManualFileInput (file) {
+      this.$serverConnect.uploadNewFile(file)
+        .then(this.onUploadSuccess, this.onUploadFail)
+        .catch(err => this.onUploadFail(err));
+    },
     onUploadSuccess (remoteUrl) {
       switch (this.addToEditorModalContents.type) {
         case this.$CONSTANTS.EDITOR_MODAL_TYPES.IMAGE:
@@ -188,6 +215,11 @@ export default {
           break;
         case this.$CONSTANTS.EDITOR_MODAL_TYPES.VIDEO:
           this.editorOptions.video.storedItems.push({
+            src: remoteUrl
+          });
+          break;
+        case this.$CONSTANTS.EDITOR_MODAL_TYPES.FILE:
+          this.editorOptions.file.storedItems.push({
             src: remoteUrl
           });
           break;
